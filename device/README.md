@@ -1,4 +1,4 @@
-# Device
+# Hermus
 
 **TODO: Add description**
 

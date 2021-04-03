@@ -1,6 +1,6 @@
-defmodule Device do
+defmodule Hermus do
   @moduledoc """
-  Documentation for Device.
+  Documentation for Hermus.
   """
 
   @doc """
@@ -8,7 +8,7 @@ defmodule Device do
 
   ## Examples
 
-      iex> Device.hello
+      iex> Hermus.hello
       :world
 
   """
