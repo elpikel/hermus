@@ -1,4 +1,5 @@
 %{
+  "circuits_uart": {:hex, :circuits_uart, "1.4.2", "520817daced77620bc036c168eb42b55ba4b4c141c2de47a199895a35a86e690", [:mix], [{:elixir_make, "~> 0.6", [hex: :elixir_make, repo: "hexpm", optional: false]}], "hexpm", "d3da86c9ef9ef196150797c7de1c7a7d367ebcd0de44f325c36def8654976c06"},
   "dns": {:hex, :dns, "2.2.0", "4721a79c2bccc25481930dffbfd06f40851321c3d679986af307111214bf124c", [:mix], [{:socket, "~> 0.3.13", [hex: :socket, repo: "hexpm", optional: false]}], "hexpm", "13ed1ef36ce896211ec6ce5e02709dbfb12aa61d6255bda8d531577a0a5a56e0"},
   "elixir_make": {:hex, :elixir_make, "0.6.2", "7dffacd77dec4c37b39af867cedaabb0b59f6a871f89722c25b28fcd4bd70530", [:mix], [], "hexpm", "03e49eadda22526a7e5279d53321d1cced6552f344ba4e03e619063de75348d9"},
   "gen_state_machine": {:hex, :gen_state_machine, "3.0.0", "1e57f86a494e5c6b14137ebef26a7eb342b3b0070c7135f2d6768ed3f6b6cdff", [:mix], [], "hexpm", "0a59652574bebceb7309f6b749d2a41b45fdeda8dbb4da0791e355dd19f0ed15"},

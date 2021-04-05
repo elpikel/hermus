@@ -12,9 +12,7 @@ defmodule Hermus.Application do
 
     children =
       [
-        # Children for all targets
-        # Starts a worker by calling: Hermus.Worker.start_link(arg)
-        # {Hermus.Worker, arg},
+        Hermus.Worker
       ] ++ children(target())
 
     Supervisor.start_link(children, opts)
