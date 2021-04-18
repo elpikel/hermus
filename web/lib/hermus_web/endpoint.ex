@@ -7,7 +7,7 @@ defmodule HermusWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_hermus_key",
-    signing_salt: "4z6XgD8n"
+    signing_salt: "QAJ+mdf+"
   ]
 
   socket "/socket", HermusWeb.UserSocket,

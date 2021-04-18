@@ -13,10 +13,10 @@ config :hermus,
 # Configures the endpoint
 config :hermus, HermusWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "5KJmwHd0+K8w/uVHUc+rHCE8jdJ9S3EQO1VJf8NfoA8tnqwTDsSUjsm3iztvpkNh",
+  secret_key_base: "T26fuWeGg8gzdLIwqgnR+mMCElK52lxhy9UKUUq6O/3ag8n7JXBxwgiWNJEKMOO8",
   render_errors: [view: HermusWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Hermus.PubSub,
-  live_view: [signing_salt: "6XczzULU"]
+  live_view: [signing_salt: "P7XIbqfl"]
 
 # Configures Elixir's Logger
 config :logger, :console,
