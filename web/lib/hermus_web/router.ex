@@ -14,6 +14,11 @@ defmodule HermusWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/api", HermusWeb do
+    pipe_through :api
+    resources "/devices", DeviceController, except: [:new, :edit]
+  end
+
   scope "/", HermusWeb do
     pipe_through :browser
 
