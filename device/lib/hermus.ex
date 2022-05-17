@@ -1,12 +1,18 @@
 defmodule Hermus do
-  use GenServer
+  @moduledoc """
+  Documentation for Hermus.
+  """
 
-  @impl true
-  def init(_args) do
-    IO.inspect(Circuits.UART.enumerate())
+  @doc """
+  Hello world.
 
-    {:ok, pid} = Circuits.UART.start_link()
+  ## Examples
 
-    {:ok, pid}
+      iex> Hermus.hello
+      :world
+
+  """
+  def hello do
+    :world
   end
 end
