@@ -1,9 +1,8 @@
 defmodule Hermus.Device do
   use GenServer
 
+  alias Hermus.Devices
   alias Hermus.DevicesRegistry
-  alias Hermus.Repo
-  alias Hermus.Models
 
   def start_link(device_id) do
     GenServer.start_link(__MODULE__, device_id, name: DevicesRegistry.via_tuple(device_id))
@@ -30,10 +29,7 @@ defmodule Hermus.Device do
 
   @impl true
   def handle_cast({:add_probe, probe}, device_id) do
-    probe =
-      %Models.Probe{}
-      |> Models.Probe.changeset(%{pm10: probe["pm10"], pm25: probe["pm25"]})
-      |> Repo.insert!()
+    probe = Devices.add_probe(device_id, probe)
 
     Phoenix.PubSub.broadcast(Hermus.PubSub, "probe", probe)
 
@@ -42,9 +38,7 @@ defmodule Hermus.Device do
 
   @impl true
   def handle_continue(:upsert_device, device_id) do
-    %Models.Device{}
-    |> Models.Device.changeset(%{identifier: device_id})
-    |> Repo.insert!(on_conflict: :nothing)
+    %{id: device_id} = Devices.add_device(device_id)
 
     {:noreply, device_id}
   end

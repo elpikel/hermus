@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <tr>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="probes">
+    <%= for probe <- @probes do %>
+      <tr id={"probe-#{probe.id}"}>
+
+        <td>
+          <span><%= probe.pm10 %></span>
+          <span><%= probe.pm25 %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -16,7 +16,7 @@ defmodule Hermus.Models.Probe do
 
   def changeset(probe, params \\ %{}) do
     probe
-    |> cast(params, [:pm10, :pm25])
-    |> validate_required([:pm10, :pm25])
+    |> cast(params, [:device_id, :pm10, :pm25])
+    |> validate_required([:device_id, :pm10, :pm25])
   end
 end
