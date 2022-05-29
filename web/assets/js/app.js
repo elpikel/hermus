@@ -31,10 +31,11 @@ Hooks.Chart = {
     devices() { return JSON.parse(this.el.dataset.devices);},
     labels() { return [...Array(20).keys()]; },
     datasets(devices) { return devices.map(device => {
+        const randomColor = "#" + Math.floor(Math.random()*16777215).toString(16);
         return {
             id: device.id,
             label: device.name,
-            borderColor: 'rgb(255, 99, 132)',
+            borderColor: randomColor,
             data: device.probes.map(device => device.pm10)
         };
     });
