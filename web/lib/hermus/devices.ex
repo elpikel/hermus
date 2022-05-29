@@ -24,9 +24,28 @@ defmodule Hermus.Devices do
   end
 
   def list_probes() do
-    Models.Probe
-    |> from(as: :probe)
-    |> limit(20)
+    limited_query =
+      Models.Probe
+      |> from(as: :limited_probe)
+      |> select([limited_probe: p], %{
+        id: p.id,
+        row_number: over(row_number(), :devices_partition)
+      })
+      |> windows(devices_partition: [partition_by: :device_id, order_by: [desc: :inserted_at]])
+
+    probes_query =
+      Models.Probe
+      |> from(as: :probe)
+      |> join(
+        :inner,
+        [probe: p],
+        lq in subquery(limited_query),
+        on: p.id == lq.id and lq.row_number <= 20
+      )
+
+    Models.Device
+    |> from(as: :device)
+    |> preload(probes: ^probes_query)
     |> Repo.all()
   end
 end
