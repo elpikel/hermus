@@ -35,7 +35,7 @@ defmodule HermusWeb.ProbeLive.Index do
 
     socket = assign(socket, devices: updated_devices)
 
-    {:noreply, push_event(socket, "probe", %{probe: probe})}
+    {:noreply, push_event(socket, "probe", probe)}
   end
 
   defp add(probes, probe) do

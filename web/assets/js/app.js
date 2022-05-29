@@ -24,36 +24,44 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
+import Chart from 'chart.js/auto';
 
 let Hooks = {};
 Hooks.Chart = {
-    probes() { return JSON.parse(this.el.dataset.probes) },
-    labels(probes) { return probes; },
+    devices() { return JSON.parse(this.el.dataset.devices);},
+    labels() { return [...Array(20).keys()]; },
+    datasets(devices) { return devices.map(device => {
+        return {
+            id: device.id,
+            label: device.name,
+            borderColor: 'rgb(255, 99, 132)',
+            data: device.probes.map(device => device.pm10)
+        };
+    });
+    },
     mounted() {
         let ctx = document.getElementById("probeChart").getContext('2d');
         let chart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: this.tickers().labels,
-                datasets: [{
-                    label: 'Probes',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: this.probes().map(ticker => ticker.y)
-                }]
+                labels: this.labels(),
+                datasets: this.datasets(this.devices())
             },
             options: {}
         });
 
-        this.handleEvent("probes", (data) => {
-            chart.data.datasets[0].data = data.tickers.bitbay.map(ticker => ticker.y);
-            chart.data.labels = data.tickers.bitbay.map(ticker => ticker.x);
+        this.handleEvent("probe", (data) => {
+            const datasetIndex = chart.data.datasets.findIndex(dataset => dataset.id == data.device_id);
+            chart.data.datasets[datasetIndex].data.pop();
+            chart.data.datasets[datasetIndex].data.unshift(data.pm10);
+
             chart.update();
         });
     }
 };
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
+let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks, params: {_csrf_token: csrfToken}})
 
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
