@@ -17,7 +17,7 @@ defmodule HermusWeb.Router do
   scope "/", HermusWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    live "/", ProbeLive.Index, :index
 
     live "/probes", ProbeLive.Index, :index
   end
