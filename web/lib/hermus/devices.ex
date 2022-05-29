@@ -11,7 +11,7 @@ defmodule Hermus.Devices do
     %Models.Device{}
     |> Models.Device.changeset(%{identifier: device_id, name: name})
     |> Repo.insert!(
-      on_conflict: {:replace_all_except, [:name]},
+      on_conflict: {:replace_all_except, [:id, :name]},
       conflict_target: [:identifier],
       returning: true
     )
@@ -23,7 +23,7 @@ defmodule Hermus.Devices do
     |> Repo.insert!()
   end
 
-  def list_probes() do
+  def list(limit \\ 20) do
     limited_query =
       Models.Probe
       |> from(as: :limited_probe)
@@ -40,7 +40,7 @@ defmodule Hermus.Devices do
         :inner,
         [probe: p],
         lq in subquery(limited_query),
-        on: p.id == lq.id and lq.row_number <= 20
+        on: p.id == lq.id and lq.row_number <= ^limit
       )
 
     Models.Device

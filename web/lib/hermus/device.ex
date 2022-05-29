@@ -8,7 +8,7 @@ defmodule Hermus.Device do
     GenServer.start_link(__MODULE__, device_id, name: DevicesRegistry.via_tuple(device_id))
   end
 
-  def add_probe(probe, device_id) do
+  def add_probe(probe, device_id) when not is_nil(probe) do
     device_id
     |> DevicesRegistry.via_tuple()
     |> GenServer.cast({:add_probe, probe})

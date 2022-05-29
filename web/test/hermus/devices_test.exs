@@ -19,7 +19,7 @@ defmodule Hermus.NameTest do
     end
   end
 
-  describe "list_probes/0" do
+  describe "list/0" do
     test "gets devices with 20 limited probes" do
       device1 = Devices.add_device("1")
       device2 = Devices.add_device("2")
@@ -27,7 +27,7 @@ defmodule Hermus.NameTest do
       add_probes(device1)
       add_probes(device2)
 
-      [%{identifier: "1"} = device1, %{identifier: "2"} = device2] = Devices.list_probes()
+      [%{identifier: "1"} = device1, %{identifier: "2"} = device2] = Devices.list()
 
       assert length(device1.probes) == 20
       assert length(device2.probes) == 20

@@ -4,13 +4,15 @@ defmodule HermusWeb.ProbeLive.Index do
   alias Hermus.Devices
   alias Hermus.Models
 
+  @probes_limit 20
+
   @impl true
   def mount(_params, _session, socket) do
     if connected?(socket) do
       Phoenix.PubSub.subscribe(Hermus.PubSub, "probe")
     end
 
-    {:ok, assign(socket, :probes, list_probes())}
+    {:ok, assign(socket, :devices, list_devices())}
   end
 
   @impl true
@@ -19,14 +21,21 @@ defmodule HermusWeb.ProbeLive.Index do
   end
 
   defp handle_new_probe(probe, socket) do
-    probes =
-      socket.assigns.probes
-      |> add(probe)
-      |> window()
+    devices = socket.assigns.devices
 
-    socket = assign(socket, probes: probes)
+    updated_devices =
+      update_in(devices[probe.device_id], fn device ->
+        probes =
+          device.probes
+          |> add(probe)
+          |> window()
 
-    {:noreply, push_event(socket, "probes", %{probes: probes})}
+        %{device | probes: probes}
+      end)
+
+    socket = assign(socket, devices: updated_devices)
+
+    {:noreply, push_event(socket, "probe", %{probe: probe})}
   end
 
   defp add(probes, probe) do
@@ -34,10 +43,14 @@ defmodule HermusWeb.ProbeLive.Index do
   end
 
   defp window(probes) do
-    Enum.take(probes, 20)
+    Enum.take(probes, @probes_limit)
   end
 
-  defp list_probes do
-    Devices.list_probes()
+  defp list_devices() do
+    @probes_limit
+    |> Devices.list()
+    |> Enum.into(%{}, fn device ->
+      {device.id, device}
+    end)
   end
 end

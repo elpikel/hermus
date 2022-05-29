@@ -17,7 +17,7 @@ defmodule Hermus.Models.Device do
   def changeset(device, params \\ %{}) do
     device
     |> cast(params, [:identifier, :name])
-    |> validate_required([:identifier])
+    |> validate_required([:identifier, :name])
     |> unique_constraint([:identifier])
   end
 end

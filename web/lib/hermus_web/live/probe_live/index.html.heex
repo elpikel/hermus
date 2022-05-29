@@ -1,4 +1,4 @@
-<canvas id="chart" phx-update="ignore" phx-hook="Chart" data-probes={"#{Jason.encode!(@probes)}"} width="100%" height="100%"></canvas>
+<canvas id="chart" phx-update="ignore" phx-hook="Chart" data-probes={"#{Jason.encode!(@devices)}"} width="100%" height="100%"></canvas>
 
 <table>
   <thead>
@@ -6,15 +6,19 @@
       <th></th>
     </tr>
   </thead>
-  <tbody id="probes">
-    <%= for probe <- @probes do %>
-      <tr id={"probe-#{probe.id}"}>
+  <tbody id="devices">
+    <%= for device <- Map.values(@devices) do %>
+      <%= for probe <- device.probes do %>
+        <tr id={"probe-#{probe.id}"}>
 
-        <td>
-          <span><%= probe.pm10 %></span>
-          <span><%= probe.pm25 %></span>
-        </td>
-      </tr>
+          <td>
+            <span><%= device.name %></span>
+            <span><%= probe.pm10 %></span>
+            <span><%= probe.pm25 %></span>
+            <span><%= probe.inserted_at %></span>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
