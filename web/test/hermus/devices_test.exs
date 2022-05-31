@@ -1,4 +1,4 @@
-defmodule Hermus.NameTest do
+defmodule Hermus.DevicesTest do
   use Hermus.DataCase
 
   alias Hermus.Devices
