@@ -5,11 +5,11 @@ defmodule Hermus.DevicesRegistry do
     @name
   end
 
-  def via_tuple(device_id) do
-    {:via, Registry, {@name, device_id}}
+  def via_tuple(device_identifier) do
+    {:via, Registry, {@name, device_identifier}}
   end
 
-  def exist?(device_id) do
-    Registry.lookup(@name, device_id) != []
+  def exist?(device_identifier) do
+    Registry.lookup(@name, device_identifier) != []
   end
 end
