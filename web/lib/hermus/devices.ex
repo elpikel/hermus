@@ -5,11 +5,11 @@ defmodule Hermus.Devices do
 
   import Ecto.Query
 
-  def add_device(device_id) do
+  def add_device(device_identifier) do
     name = Name.generate()
 
     %Models.Device{}
-    |> Models.Device.changeset(%{identifier: device_id, name: name})
+    |> Models.Device.changeset(%{identifier: device_identifier, name: name})
     |> Repo.insert!(
       on_conflict: {:replace_all_except, [:id, :name]},
       conflict_target: [:identifier],

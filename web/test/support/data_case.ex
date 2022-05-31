@@ -19,6 +19,7 @@ defmodule Hermus.DataCase do
   using do
     quote do
       alias Hermus.Repo
+      alias Hermus.Models
 
       import Ecto
       import Ecto.Changeset
