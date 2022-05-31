@@ -17,6 +17,43 @@ defmodule Hermus.DevicesTest do
 
       assert device.name == updated_device.name
     end
+
+    test "raises error for invalid parameters" do
+      %Ecto.InvalidChangesetError{changeset: changeset} =
+        assert_raise(Ecto.InvalidChangesetError, fn ->
+          Devices.add_device("asdfslkdfjlskdjflksdjfl;ksjdflkasdjf;lakjaklsfdjlkjsdainvalid")
+        end)
+
+      assert changeset.errors == [
+               identifier:
+                 {"should be at most %{count} character(s)",
+                  [{:count, 40}, {:validation, :length}, {:kind, :max}, {:type, :string}]}
+             ]
+    end
+  end
+
+  describe "add_probe/2" do
+    test "adds probe" do
+      device = Devices.add_device("new")
+      probe = Devices.add_probe(device.id, %{"pm10" => 10.0, "pm25" => 2.5})
+
+      assert probe.device_id == device.id
+      assert probe.pm10 == 10.0
+      assert probe.pm25 == 2.5
+    end
+
+    test "raises error for invalid parameters" do
+      %Ecto.InvalidChangesetError{changeset: changeset} =
+        assert_raise(Ecto.InvalidChangesetError, fn ->
+          Devices.add_probe("invalid", %{"pm10" => "invalid"})
+        end)
+
+      assert changeset.errors == [
+               pm25: {"can't be blank", [validation: :required]},
+               device_id: {"is invalid", [type: :id, validation: :cast]},
+               pm10: {"is invalid", [type: :float, validation: :cast]}
+             ]
+    end
   end
 
   describe "list/0" do

@@ -18,6 +18,7 @@ defmodule Hermus.Models.Device do
     device
     |> cast(params, [:identifier, :name])
     |> validate_required([:identifier, :name])
+    |> validate_length(:identifier, max: 40)
     |> unique_constraint([:identifier])
   end
 end
