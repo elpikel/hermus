@@ -6,8 +6,8 @@ defmodule Hermus.DevicesSupervisor do
     DynamicSupervisor.start_link(__MODULE__, [], name: __MODULE__)
   end
 
-  def start_child(device_id) do
-    child_specification = {Device, device_id}
+  def start_child(device_identifier) do
+    child_specification = {Device, device_identifier}
 
     DynamicSupervisor.start_child(__MODULE__, child_specification)
   end
