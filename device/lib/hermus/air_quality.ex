@@ -13,8 +13,9 @@ defmodule Hermus.AirQuality do
   end
 
   @impl true
-  def init(%{pid: pid} = state) do
-    Circuits.UART.open(pid, port(), active: true)
+  def init(state) do
+    Circuits.UART.open(state.pid, port(), active: true)
+
     {:ok, state}
   end
 
@@ -25,7 +26,7 @@ defmodule Hermus.AirQuality do
 
   @impl true
   def handle_info({:circuits_uart, _usb, message}, state) do
-    probe = SDS011.decode!(message) |> IO.inspect()
+    probe = SDS011.decode!(message)
 
     state = %{state | last_probe: probe}
 
@@ -33,8 +34,11 @@ defmodule Hermus.AirQuality do
   end
 
   defp port() do
-    {port, _} = Enum.find(Circuits.UART.enumerate(), fn {_key, value} -> value != %{} end)
-
-    port
+    Circuits.UART.enumerate()
+    |> Enum.find(fn {_key, value} -> value != %{} end)
+    |> then(fn
+      {port, _} -> port
+      _ -> nil
+    end)
   end
 end
