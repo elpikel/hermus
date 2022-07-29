@@ -4,8 +4,7 @@ defmodule Hermus.AirQuality do
   alias Hermus.SDS011
 
   def start_link(_args) do
-    {:ok, pid} = Circuits.UART.start_link()
-    GenServer.start_link(__MODULE__, %{pid: pid, last_probe: nil}, name: __MODULE__)
+    GenServer.start_link(__MODULE__, %{last_probe: nil}, name: __MODULE__)
   end
 
   def last_probe() do
@@ -14,7 +13,8 @@ defmodule Hermus.AirQuality do
 
   @impl true
   def init(state) do
-    Circuits.UART.open(state.pid, port(), active: true)
+    {:ok, pid} = Circuits.UART.start_link()
+    Circuits.UART.open(pid, port(), active: true)
 
     {:ok, state}
   end
