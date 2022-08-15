@@ -37,6 +37,8 @@ defmodule Hermus.MixProject do
       {:toolshed, "~> 0.2.13"},
       {:circuits_uart, "~> 1.4"},
       {:jason, "~> 1.3"},
+      {:rewire, "~> 0.8", only: :test},
+      {:mox, "~> 1.0", only: :test},
 
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.11.6", targets: @all_targets},
