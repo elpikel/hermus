@@ -1,4 +1,7 @@
 defmodule Hermus.SDS011 do
+  @moduledoc """
+    Decodes SDS011 message into `Hermus.Probe` struct. Taken from: https://github.com/aerosol/exodust.
+  """
   alias Hermus.Probe
   defmodule UnsupportedMessageError, do: defexception([:message])
 
